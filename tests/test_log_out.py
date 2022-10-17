@@ -1,4 +1,5 @@
-import time
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from locators import *
@@ -9,19 +10,19 @@ class TestStellarBurgersLogOut:
         driver = webdriver.Chrome()
         driver.get(urls['log_in_page'])
 
-        driver.find_element(By.XPATH, locators['log_in_email_field']).send_keys('regreg@mail.ru')
-        driver.find_element(By.XPATH, locators['log_in_password_field']).send_keys('qwerqwe')
-        driver.find_element(By.XPATH, locators['lod_in_login_button']).click()
+        driver.find_element(By.XPATH, log_in_email_field).send_keys('regreg@mail.ru')
+        driver.find_element(By.XPATH, log_in_password_field).send_keys('qwerqwe')
+        driver.find_element(By.XPATH, log_in_login_button).click()
 
-        time.sleep(1)
+        WebDriverWait(driver, 3).until(EC.element_to_be_clickable((By.XPATH, transition_to_personal_account)))
 
-        driver.find_element(By.XPATH, locators['transition_to_personal_account']).click()
+        driver.find_element(By.XPATH, transition_to_personal_account).click()
 
-        time.sleep(1)
+        WebDriverWait(driver, 3).until(EC.element_to_be_clickable((By.XPATH, log_out_button)))
 
-        driver.find_element(By.XPATH, locators['log_out_button']).click()
+        driver.find_element(By.XPATH, log_out_button).click()
 
-        time.sleep(1)
+        WebDriverWait(driver, 3).until(EC.element_to_be_clickable((By.XPATH, log_in_login_button)))
 
         assert driver.current_url == 'https://stellarburgers.nomoreparties.site/login'
 
